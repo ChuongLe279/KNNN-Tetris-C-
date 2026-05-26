@@ -11,7 +11,7 @@
 #include <windows.h>
 #endif
 
-namespace {
+
 char blockForValue(int value) {
     static constexpr char kBlocks[] = " IOTSZJL";
     if (value >= 0 && value < static_cast<int>(sizeof(kBlocks) - 1)) {
@@ -23,10 +23,10 @@ char blockForValue(int value) {
 bool containsCell(const Tetromino& piece, int x, int y) {
     for (const auto& cell : piece.cells()) {
         if (cell.x == x && cell.y == y) {
-            return true;
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
 std::string typeName(TetrominoType type) {
@@ -43,10 +43,6 @@ std::string typeName(TetrominoType type) {
         return "Z";
     case TetrominoType::J:
         return "J";
-    case TetrominoType::L:
-        return "L";
-    }
-    return "?";
 }
 }
 
@@ -94,7 +90,6 @@ void Renderer::draw(const Board& board,
                     bool gameOver) const {
     clearScreen();
 
-    std::cout << "TETRIS C++\n\n";
     for (int y = 0; y < Board::Height; ++y) {
         std::cout << '|';
         for (int x = 0; x < Board::Width; ++x) {
@@ -142,9 +137,7 @@ void Renderer::draw(const Board& board,
     }
     std::cout << '+' << std::string(Board::Width * 2, '-') << "+\n";
 
-    if (paused) {
-        std::cout << "\nPaused\n";
-    }
+
     if (gameOver) {
         std::cout << "\nGame over. Press R to restart or Q to quit.\n";
     }
@@ -156,7 +149,4 @@ void Renderer::draw(const Board& board,
 void Renderer::clearScreen() const {
     if (firstDraw_) {
         std::cout << "\x1B[2J\x1B[H";
-    } else {
-        std::cout << "\x1B[H";
-    }
 }
