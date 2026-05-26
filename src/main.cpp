@@ -1,3 +1,6 @@
+/*
+ * UI branch giu diem vao chuong trinh gon nhe de chay giao dien game.
+ */
 #include "GameLoop.h"
 
 #include <exception>
